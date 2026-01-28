@@ -14,7 +14,7 @@ import java.util.Collections;
 /**
  * SFTP Server with chunked streaming encryption.
  * 
- * Apache MINA SSHD 2.16.0 + Google Tink 1.15.0
+ * Apache MINA SSHD 2.16.0 + Google Tink 1.20.0
  * 
  * Features:
  * - Chunk-based encryption (default 64KB chunks)

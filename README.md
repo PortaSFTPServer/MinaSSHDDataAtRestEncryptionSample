@@ -60,7 +60,7 @@ Production-ready SFTP server with transparent Data At Rest Encryption (DARE) usi
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        SFTP Client                              │
-│              (FileZilla, WinSCP, sftp CLI, etc.)               │
+│              (FileZilla, WinSCP, sftp CLI, etc.)                │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              │ SFTP Protocol (SSH File Transfer)
@@ -68,21 +68,21 @@ Production-ready SFTP server with transparent Data At Rest Encryption (DARE) usi
 ┌────────────────────────────▼────────────────────────────────────┐
 │              Apache MINA SSHD Server (2.17.1)                   │
 ├─────────────────────────────────────────────────────────────────┤
-│  - SSH Protocol Handling & Session Management                  │
-│  - SFTP Subsystem (File Operations)                           │
-│  - User Authentication (Password-based)                        │
-│  - Virtual File System (Per-user home directories)            │
+│  - SSH Protocol Handling & Session Management                   │
+│  - SFTP Subsystem (File Operations)                             │
+│  - User Authentication (Password-based)                         │
+│  - Virtual File System (Per-user home directories)              │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              │ File I/O Operations
                              │
 ┌────────────────────────────▼────────────────────────────────────┐
-│          ChunkedEncryptedSftpAccessor                          │
+│          ChunkedEncryptedSftpAccessor                           │
 ├─────────────────────────────────────────────────────────────────┤
-│  - Intercepts all file open operations                         │
-│  - Routes to appropriate channel (read/write)                  │
-│  - Manages logical vs physical file path mapping               │
-│  - Handles .enc extension mode if enabled                      │
+│  - Intercepts all file open operations                          │
+│  - Routes to appropriate channel (read/write)                   │
+│  - Manages logical vs physical file path mapping                │
+│  - Handles .enc extension mode if enabled                       │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                 ┌────────────┴────────────┐
@@ -103,20 +103,20 @@ Production-ready SFTP server with transparent Data At Rest Encryption (DARE) usi
 ┌─────────────────────────────────────────────────────────────────┐
 │           ChunkedEncryptionService (Google Tink)                │
 ├─────────────────────────────────────────────────────────────────┤
-│  - AES-256-GCM encryption/decryption                           │
-│  - Per-chunk authentication with associated data               │
-│  - File header creation and parsing                            │
-│  - Keyset management (encrypted with master key)              │
-│  - Random access chunk retrieval by index                      │
+│  - AES-256-GCM encryption/decryption                            │
+│  - Per-chunk authentication with associated data                │
+│  - File header creation and parsing                             │
+│  - Keyset management (encrypted with master key)                │
+│  - Random access chunk retrieval by index                       │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Encrypted File Storage                       │
 ├─────────────────────────────────────────────────────────────────┤
-│  Structure: [HEADER][CHUNK_0_SIZE][CHUNK_0]...                 │
-│  Location:  ./sftp-storage/<username>/                         │
-│  Format:    All data encrypted with AES-256-GCM                │
+│  Structure: [HEADER][CHUNK_0_SIZE][CHUNK_0]...                  │
+│  Location:  ./sftp-storage/<username>/                          │
+│  Format:    All data encrypted with AES-256-GCM                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -219,7 +219,7 @@ Production-ready SFTP server with transparent Data At Rest Encryption (DARE) usi
 ├──────────────────────────────────────────────────────────────┤
 │  Offset  │ Size │ Field            │ Description             │
 ├──────────┼──────┼──────────────────┼─────────────────────────┤
-│  0       │  4   │ Magic            │ "CENC" (0x43454E43)    │
+│  0       │  4   │ Magic            │ "CENC" (0x43454E43)     │
 │  4       │  2   │ Version          │ 0x0001                  │
 │  6       │  4   │ Chunk Size       │ Default: 65536 bytes    │
 │  10      │  8   │ Original Size    │ Plaintext file size     │
@@ -229,15 +229,15 @@ Production-ready SFTP server with transparent Data At Rest Encryption (DARE) usi
 ┌──────────────────────────────────────────────────────────────┐
 │                    CHUNK 0 (Variable Size)                   │
 ├──────────────────────────────────────────────────────────────┤
-│  Chunk Size (4 bytes)    │ Encrypted size (plaintext + tag) │
-│  Encrypted Data (N bytes)│ AES-256-GCM ciphertext          │
+│  Chunk Size (4 bytes)    │ Encrypted size (plaintext + tag)  │
+│  Encrypted Data (N bytes)│ AES-256-GCM ciphertext            │
 └──────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────┐
 │                    CHUNK 1 (Variable Size)                   │
 ├──────────────────────────────────────────────────────────────┤
-│  Chunk Size (4 bytes)    │ Encrypted size                   │
-│  Encrypted Data (M bytes)│ AES-256-GCM ciphertext          │
+│  Chunk Size (4 bytes)    │ Encrypted size                    │
+│  Encrypted Data (M bytes)│ AES-256-GCM ciphertext            │
 └──────────────────────────────────────────────────────────────┘
 
 ... (additional chunks as needed)
@@ -939,39 +939,39 @@ public static boolean authenticate(String username, String password) {
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ Layer 1: Network Security                                      │
+│ Layer 1: Network Security                                       │
 │  - SSH protocol encryption (client ← → server transport)        │
 │  - Host key verification                                        │
-│  - Port-based access control                                   │
+│  - Port-based access control                                    │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
 │ Layer 2: Authentication                                         │
-│  - PBKDF2-HMAC-SHA256 password hashing (100K iterations)       │
-│  - Constant-time comparison (timing attack prevention)         │
+│  - PBKDF2-HMAC-SHA256 password hashing (100K iterations)        │
+│  - Constant-time comparison (timing attack prevention)          │
 │  - Username enumeration prevention                              │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│ Layer 3: Application Security                                  │
-│  - Input validation on all file operations                     │
-│  - Path traversal prevention (virtual file system)             │
+│ Layer 3: Application Security                                   │
+│  - Input validation on all file operations                      │
+│  - Path traversal prevention (virtual file system)              │
 │  - Per-user directory isolation                                 │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│ Layer 4: Data At Rest Encryption (DARE)                        │
-│  - AES-256-GCM per-chunk encryption                            │
+│ Layer 4: Data At Rest Encryption (DARE)                         │
+│  - AES-256-GCM per-chunk encryption                             │
 │  - Per-chunk authentication tags                                │
-│  - Associated data binding (prevents chunk attacks)            │
+│  - Associated data binding (prevents chunk attacks)             │
 │  - Zero plaintext on disk                                       │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────┐
-│ Layer 5: Storage Security                                      │
+│ Layer 5: Storage Security                                       │
 │  - Encrypted keyset storage                                     │
 │  - File system permissions                                      │
-│  - Physical security (server hosting environment)              │
+│  - Physical security (server hosting environment)               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 

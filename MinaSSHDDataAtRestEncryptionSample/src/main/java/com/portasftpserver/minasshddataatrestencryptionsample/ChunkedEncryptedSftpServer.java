@@ -95,7 +95,7 @@ public class ChunkedEncryptedSftpServer {
             public Path getUserHomeDir(org.apache.sshd.common.session.SessionContext session) 
                     throws IOException {
                 String username = session.getUsername();
-                Path userDir = storageRoot.resolve(username);
+                Path userDir =storageRoot.resolve(username);
                 Files.createDirectories(userDir);
                 System.out.println("[FS] User home: " + userDir);
                 return userDir;

@@ -2,6 +2,24 @@
 
 **Repository**: [https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample](https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample)
 
+---
+
+## ⚠️ IMPORTANT NOTICE
+
+**This implementation is intended for educational, development, and testing purposes only.**
+
+This code demonstrates Data At Rest Encryption concepts with Apache MINA SSHD and Google Tink. Before using in production:
+
+- **Replace hardcoded master key** with proper KMS integration
+- **Implement production-grade user authentication** (database, LDAP, or SSO)
+- **Add comprehensive audit logging** for compliance requirements
+- **Conduct security audit and penetration testing**
+- **Review and implement all items in the Security Considerations section**
+
+See [Security Considerations](#security-considerations) for detailed production requirements.
+
+---
+
 ## Overview
 
 Production-ready SFTP server with transparent Data At Rest Encryption (DARE) using Apache MINA SSHD 2.17.1 and Google Tink 1.20.0. All files stored on disk are encrypted with AES-256-GCM, ensuring zero plaintext exposure at rest while maintaining full SFTP protocol compatibility.
@@ -477,18 +495,21 @@ The service manages encryption keys using Google Tink's keyset format:
 }
 ```
 
-**IMPORTANT SECURITY NOTE**:
+**IMPORTANT SECURITY NOTE** (Educational Implementation):
 
-The current implementation uses a hardcoded master key for demonstration:
+The current implementation uses a hardcoded master key for demonstration purposes:
 
 ```java
+// ⚠️ EDUCATIONAL/TESTING ONLY - NOT FOR PRODUCTION ⚠️
 byte[] masterKeyBytes = Arrays.copyOf(
     "your-plaintext-password-here".getBytes(StandardCharsets.UTF_8),
     32
 );
 ```
 
-**For production deployment, you MUST**:
+**This is intentionally insecure to simplify the educational example.**
+
+**For ANY deployment beyond local testing, you MUST**:
 1. Replace with KMS-based key management
 2. Use environment variables or secure vault for master key
 3. Implement proper key rotation
@@ -865,7 +886,7 @@ public static boolean authenticate(String username, String password) {
 }
 ```
 
-**Default Users**:
+**Default Users** (For Testing/Development Only):
 
 ```java
 Username: admin
@@ -874,6 +895,8 @@ Password: admin123
 Username: testuser
 Password: password123
 ```
+
+**⚠️ WARNING**: These default credentials are for educational and testing purposes only. Remove or change these credentials before any deployment, even in development environments accessible from network.
 
 **Adding New Users**:
 
@@ -1426,19 +1449,26 @@ Expected: Network bandwidth typically limits transfer speeds
 
 ## Security Considerations
 
+### ⚠️ Educational Implementation Notice
+
+This is a demonstration implementation for educational and testing purposes. The following security items are intentionally simplified and **MUST** be addressed before any production deployment.
+
 ### Critical Security Notes
 
-1. **Master Key Management** (URGENT for production):
+1. **Master Key Management** (DEVELOPMENT/TESTING ONLY - CRITICAL FOR PRODUCTION):
    ```java
-   // CURRENT (DEVELOPMENT ONLY):
+   // CURRENT IMPLEMENTATION (EDUCATIONAL/DEVELOPMENT ONLY):
    byte[] masterKeyBytes = Arrays.copyOf(
        "your-plaintext-password-here".getBytes(...), 32);
    
-   // PRODUCTION (REQUIRED):
+   // ⚠️ THIS IS NOT SECURE FOR PRODUCTION ⚠️
+   
+   // PRODUCTION REQUIREMENTS:
    // - Load from KMS (AWS KMS, Azure Key Vault, HashiCorp Vault)
    // - Use environment variables (minimum)
    // - Implement key rotation
    // - Add salt and proper key derivation
+   // - Never hardcode credentials
    ```
 
 2. **Keyset Storage**:
@@ -1447,13 +1477,15 @@ Expected: Network bandwidth typically limits transfer speeds
    - Backup: Keep encrypted backups in separate location
    - Rotation: Implement regular key rotation policy
 
-3. **User Authentication**:
-   - Current: In-memory, PBKDF2-hashed
-   - Recommended for production:
+3. **User Authentication** (EDUCATIONAL IMPLEMENTATION):
+   - Current: In-memory, PBKDF2-hashed (for testing/development)
+   - Default credentials provided for demonstration purposes only
+   - Production requirements:
      - Database with encrypted storage
      - LDAP/Active Directory integration
      - Multi-factor authentication (MFA)
      - Account lockout after failed attempts
+     - No default credentials
 
 4. **Network Security**:
    - Use firewall to restrict port 2222 access
@@ -1985,13 +2017,17 @@ Performance will vary based on your specific hardware configuration:
 
 ### License
 
-This implementation is provided as-is for educational and production use. 
+**Educational and Development Use**
+
+This implementation is provided for educational, development, and testing purposes. It demonstrates encryption-at-rest concepts and is not intended for production use without significant security enhancements.
 
 **Dependencies Licenses**:
 - Apache MINA SSHD: Apache License 2.0
 - Google Tink: Apache License 2.0
 - SLF4J: MIT License
 - Logback: Eclipse Public License 1.0 / LGPL 2.1
+
+**Disclaimer**: This software is provided "as-is" without warranty of any kind. See repository LICENSE file for details.
 
 ### Contributing
 

@@ -1,5 +1,7 @@
 # Data At Rest Encryption (DARE) SFTP Server Implementation
 
+**Repository**: [https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample](https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample)
+
 ## Overview
 
 Production-ready SFTP server with transparent Data At Rest Encryption (DARE) using Apache MINA SSHD 2.17.1 and Google Tink 1.20.0. All files stored on disk are encrypted with AES-256-GCM, ensuring zero plaintext exposure at rest while maintaining full SFTP protocol compatibility.
@@ -1012,8 +1014,8 @@ git -version
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/dare-sftp-server.git
-cd dare-sftp-server
+git clone https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample.git
+cd MinaSSHDDataAtRestEncryptionSample
 
 # Build with Maven
 mvn clean package
@@ -2002,9 +2004,9 @@ Contributions welcome! Please:
 ### Support
 
 For issues and questions:
-- GitHub Issues: [Project Issues](https://github.com/your-org/dare-sftp-server/issues)
+- GitHub Issues: [https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample/issues](https://github.com/PortaSFTPServer/MinaSSHDDataAtRestEncryptionSample/issues)
 - Documentation: This README
-- Security Issues: Report privately to security@example.com
+- Security Issues: Report privately via GitHub Security Advisories
 
 ### Changelog
 

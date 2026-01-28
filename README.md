@@ -22,7 +22,7 @@ See [Security Considerations](#security-considerations) for detailed production 
 
 ## Overview
 
-Production-ready SFTP server with transparent Data At Rest Encryption (DARE) using Apache MINA SSHD 2.17.1 and Google Tink 1.20.0. All files stored on disk are encrypted with AES-256-GCM, ensuring zero plaintext exposure at rest while maintaining full SFTP protocol compatibility.
+SFTP server with transparent Data At Rest Encryption (DARE) using Apache MINA SSHD 2.17.1 and Google Tink 1.20.0. All files stored on disk are encrypted with AES-256-GCM, ensuring zero plaintext exposure at rest while maintaining full SFTP protocol compatibility.
 
 ### Key Features
 

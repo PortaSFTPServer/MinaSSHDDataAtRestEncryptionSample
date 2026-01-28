@@ -44,7 +44,7 @@ public class ChunkedEncryptedSftpServer {
      */
     public ChunkedEncryptedSftpServer(int port, Path storageRoot, Path keysetPath, 
                                      boolean useEncExtension, int chunkSize) throws Exception {
-        this.storageRoot = storageRoot;
+        this.storageRoot =  Paths.get(PathProvider.AppLocation()).resolve(storageRoot);
         this.useEncExtension = useEncExtension;
         this.chunkSize = chunkSize;
         this.crypto = new ChunkedEncryptionService(keysetPath, chunkSize);
@@ -95,7 +95,7 @@ public class ChunkedEncryptedSftpServer {
             public Path getUserHomeDir(org.apache.sshd.common.session.SessionContext session) 
                     throws IOException {
                 String username = session.getUsername();
-                Path userDir = storageRoot.resolve(username);
+                Path userDir =storageRoot.resolve(username);
                 Files.createDirectories(userDir);
                 System.out.println("[FS] User home: " + userDir);
                 return userDir;
@@ -166,10 +166,10 @@ public class ChunkedEncryptedSftpServer {
                 System.getProperty("sftp.port", String.valueOf(DEFAULT_PORT)));
             
             Path storage = Paths.get(
-                System.getProperty("sftp.storage", "./sftp-storage"));
+                System.getProperty("sftp.storage", "sftp-storage"));
             
             Path keyset = Paths.get(
-                System.getProperty("sftp.keyset", "./keyset.json"));
+                System.getProperty("sftp.keyset", "keyset.json"));
             
             int chunkSize = Integer.parseInt(
                 System.getProperty("sftp.chunk.size", String.valueOf(DEFAULT_CHUNK_SIZE)));
